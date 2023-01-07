@@ -58,7 +58,7 @@ open class MultiAdapter<E> : RecyclerView.Adapter<MultiViewHolder<E>>() {
     }
 
     open fun updateData(ele: E) {
-        val index = data.indexOf(ele)
+        var index = data.indexOf(ele)
         updateData(index)
     }
 
@@ -84,7 +84,7 @@ open class MultiAdapter<E> : RecyclerView.Adapter<MultiViewHolder<E>>() {
         return data
     }
 
-    open fun getItem(position: Int): E {
+    open fun getItem(position: Int): E? {
         return data[position];
     }
 
@@ -109,6 +109,10 @@ open class MultiAdapter<E> : RecyclerView.Adapter<MultiViewHolder<E>>() {
 
     override fun getItemCount(): Int {
         return data.size
+    }
+
+    interface DataObserver<E> {
+        fun onDataChanged(atapter: MultiAdapter<E>)
     }
 
 }
