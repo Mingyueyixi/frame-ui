@@ -51,24 +51,23 @@ open class MultiAdapter<E> : RecyclerView.Adapter<MultiViewHolder<E>>() {
         return this
     }
 
-    open fun updateData(data: List<E>) {
+    open fun updateDataAt(data: List<E>) {
         this.data.clear()
         this.data.addAll(data)
         notifyDataSetChanged()
     }
 
-    open fun updateData(ele: E) {
+    open fun updateDataAt(ele: E) {
         val index = data.indexOf(ele)
-        updateData(index)
+        updateDataAt(index)
     }
 
-    open fun updateData(position: Int) {
+    open fun updateDataAt(position: Int) {
         if (position < 0 || position >= data.size) {
             return
         }
         notifyItemChanged(position)
     }
-
 
     open fun addData(data: List<E>): MultiAdapter<E> {
         this.data.addAll(data)
@@ -77,6 +76,21 @@ open class MultiAdapter<E> : RecyclerView.Adapter<MultiViewHolder<E>>() {
 
     open fun addData(vararg ele: E): MultiAdapter<E> {
         this.data.addAll(ele)
+        return this
+    }
+
+    open fun remove(data: List<E>): MultiAdapter<E> {
+        this.data.removeAll(data)
+        return this
+    }
+
+    open fun remove(vararg elements: E): MultiAdapter<E> {
+        this.data.removeAll(elements.toSet())
+        return this
+    }
+
+    open fun removeAt(index: Int): MultiAdapter<E> {
+        this.data.removeAt(index)
         return this
     }
 
