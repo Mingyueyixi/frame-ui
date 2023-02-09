@@ -8,6 +8,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
-    implementation deps['com.google.android.material:material']
-
+//    implementation deps['com.google.android.material:material']
+    implementation(deps['androidx.appcompat:appcompat'])
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
 }
