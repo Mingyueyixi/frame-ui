@@ -1,0 +1,61 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will build a package using Gradle and then publish it to GitHub packages when a release is created
+# For more information see: https://github.com/actions/setup-java/blob/main/docs/advanced-usage.md#Publishing-using-gradle
+#  https://docs.github.com/en/actions/using-workflows/triggering-a-workflow
+#on:
+#  release:
+#  types: [created]
+
+name: Gradle Package
+
+on:
+  push:
+    tags: [ "v*" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          server-id: github # Value of the distributionManagement/repository/id field of the pom.xml
+          settings-path: ${{ github.workspace }} # location for the settings.xml file
+
+      # get tag by commit id
+      # GIT_TAG=$(git describe --exact-match --abbrev=0 --tags "${COMMIT}" 2> /dev/null || true)
+      # https://github.com/actions/actions-runner-controller/blob/acbce4b70ad1cf719f3bab94e127ca38a1576228/hack/make-env.sh
+      # GIT_TAG=${GITHUB_REF/refs\/tags\//}
+      # 这个方式在commit没有tag时，结果类似于： refs/heads/main
+
+      - name: Prepare Env
+        id: Prepare
+        run: |
+          GIT_TAG=${GITHUB_REF/refs\/tags\//}
+          GIT_COMMIT=$(git rev-parse HEAD)
+          echo "GIT_COMMIT=$GIT_COMMIT$">> $GITHUB_ENV
+          echo "GIT_TAG=$GIT_TAG">> $GITHUB_ENV
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # The USERNAME and TOKEN need to correspond to the credentials environment variables used in
+      # the publishing section of your build.gradle
+      - name: Build with Gradle
+#        if:
+        env:
+          artifact_version: ${{ env.GIT_TAG }}
+          github_user: ${{ github.actor }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew clean -xtest -xlint assembleRelease publish

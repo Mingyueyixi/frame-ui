@@ -1,6 +1,27 @@
 apply {
     plugin 'maven-publish'
 }
+
+def initLocalPropertiesConfig() {
+    try {
+        println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> version: " +System.getenv("artifact_version"))
+        def localFile = rootProject.file("local.properties")
+        if (localFile.exists()) {
+            def reader = localFile.newInputStream()
+            localProperties.load(reader)
+            reader.close()
+        }
+    } catch (Exception e) {
+        println(e)
+    }
+    def localProperties = new Properties()
+    return new ConfigSlurper().parse(localProperties)
+}
+
+def localConfig = initLocalPropertiesConfig()
+//def commitText = "git rev-parse HEAD".execute().text.trim()
+
+
 tasks.withType(PublishToMavenRepository) {
     it.dependsOn lint, test
 }
@@ -15,22 +36,34 @@ task androidSourcesJar(type: Jar) {
 //}
 
 afterEvaluate {
+
     publishing {
-//        repositories {
-//            maven {
-//                url = findProperty('mavenRepo') ?: "${buildDir}/repo"
-//            }
-//        }
+        repositories {
+            maven {
+                // github packages仓库，速度慢，暂时不发布过去
+                name = "GitHubPackages"
+                //不支持大小写
+                url = uri("https://maven.pkg.github.com/mingyueyixi/frame-ui/")
+
+                credentials {
+                    username = "Mingyueyixi"
+                    password = System.getenv("github_token") ?: localConfig.get("github_token")
+                }
+            }
+        }
         publications {
             // Creates a Maven publication called "release".
             release(MavenPublication) {
                 // Applies the component for the release build variant.
                 from components.release // 表示发布 release（jitpack 都不会使用到）
                 // You can then customize attributes of the publication as shown below.
-                groupId = 'com.lu.magic.frameutil' // 这个是依赖库的组 id
+                groupId = 'com.lu.magic.frame.ui' // 这个是依赖库的组 id
                 // 依赖库的名称（jitpack 发布时使用的是github项目/模块名称，但多个子模块发布时，maven需要区分产物，否则就覆盖了）
                 artifactId = project.ext.find('releaseArtifactId') ?: project.name
-                version = releaseVersion
+                println("maven config publishing................$artifactId")
+                //可以配合gitAction获取tag版本，commit
+                //commitText.substring(0, 10)
+                version = System.getenv("artifact_version") ?: "v1.0.1-alpha.1"
 
                 pom {
                     licenses {
