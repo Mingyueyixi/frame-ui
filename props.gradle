@@ -17,6 +17,7 @@ ext {
             'androidx.test.espresso:espresso-core'            : 'androidx.test.espresso:espresso-core:3.5.0',
             "com.blankj:utilcodex"                            : "com.blankj:utilcodex:1.31.1",
             'org.jetbrains.kotlinx:kotlinx-coroutines-android': 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4',
+            'androidx.recyclerview:recyclerview'              : 'androidx.recyclerview:recyclerview:1.2.1',
 
             'com.amap.api:map2d'                              : 'com.amap.api:map2d:6.0.0',
             'com.amap.api:location'                           : 'com.amap.api:location:6.2.0',

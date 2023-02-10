@@ -1,0 +1,23 @@
+apply{
+    from rootProject.file('module.gradle')
+}
+
+android {
+    namespace 'com.lu.magic.frame.ui'
+    //4.1以上新的写法
+    buildFeatures {
+        buildConfig = false
+        resValues = false
+    }
+}
+//afterEvaluate {
+//    generateReleaseBuildConfig.enabled = false
+//    generateDebugBuildConfig.enabled = false
+//    generateReleaseResValues.enabled = false
+//    generateDebugResValues.enabled = false
+//}
+dependencies {
+    api(project(":ui-base"))
+    api(project(":ui-appcompat"))
+    api(project(":ui-material"))
+}

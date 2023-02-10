@@ -39,6 +39,7 @@ android {
         jvmTarget = '1.8'
     }
     viewBinding {
+        //自带androidx.annotation-1.0.0依赖
         enabled = true
     }
 

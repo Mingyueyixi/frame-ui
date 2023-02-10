@@ -31,5 +31,7 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "frame-ui"
-//include ':app'
-include(":library")
+include(":ui-base")
+include(":ui-appcompat")
+include(":ui-material")
+include(":ui-all")

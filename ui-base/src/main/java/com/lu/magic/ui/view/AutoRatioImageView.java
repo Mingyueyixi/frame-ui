@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
@@ -12,7 +13,7 @@ import androidx.annotation.Nullable;
  * 当未指定view宽高其中一方时，另一方由图片的宽高比例确定，
  * 一般配合scaleType="fitXY"，以达到按比例缩放view的宽/高的目的。
  */
-public class AutoRatioImageView extends androidx.appcompat.widget.AppCompatImageView {
+public class AutoRatioImageView extends ImageView {
     public AutoRatioImageView(Context context) {
         super(context);
     }

@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 
 import com.lu.magic.frame.ui.R;
 
-
 public class ItemMoveLayout extends FrameLayout {
     /**
      * 进行平移的view
