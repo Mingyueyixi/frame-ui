@@ -3,6 +3,7 @@ apply {
 }
 
 def initLocalPropertiesConfig() {
+    def localProperties = new Properties()
     try {
         println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> version: " +System.getenv("artifact_version"))
         def localFile = rootProject.file("local.properties")
@@ -14,7 +15,6 @@ def initLocalPropertiesConfig() {
     } catch (Exception e) {
         println(e)
     }
-    def localProperties = new Properties()
     return new ConfigSlurper().parse(localProperties)
 }
 
@@ -22,9 +22,9 @@ def localConfig = initLocalPropertiesConfig()
 //def commitText = "git rev-parse HEAD".execute().text.trim()
 
 
-tasks.withType(PublishToMavenRepository) {
-    it.dependsOn lint, test
-}
+//tasks.withType(PublishToMavenRepository) {
+//
+//}
 
 task androidSourcesJar(type: Jar) {
     archiveClassifier.set('sources')

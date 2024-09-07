@@ -21,7 +21,10 @@ ext {
 
             'com.amap.api:map2d'                              : 'com.amap.api:map2d:6.0.0',
             'com.amap.api:location'                           : 'com.amap.api:location:6.2.0',
-            'com.amap.api:search'                             : 'com.amap.api:search:9.5.0'
+            'com.amap.api:search'                             : 'com.amap.api:search:9.5.0',
+
+            'com.github.Mingyueyixi.frame-base-utils:core'    : 'com.github.Mingyueyixi.frame-baseutils:core:3811678a39',
+
     ]
     releaseVersion = "1.0"
 }
